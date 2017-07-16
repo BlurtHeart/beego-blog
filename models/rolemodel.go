@@ -5,8 +5,9 @@ import (
 )
 
 type Role struct {
-	Id          int    `orm:"pk;auto"`
-	RoleName    string `orm:"size(20);unique"`
+	Id          int     `orm:"pk;auto"`
+	RoleName    string  `orm:"size(20);unique"`
+	Users       []*User `orm:"reverse(many)"`
 	Permissions int
 }
 
