@@ -1,5 +1,9 @@
 package models
 
+import (
+	"time"
+)
+
 type Post struct {
 	Id         int        `orm:"pk;auto"`
 	Title      string     `orm:"type(text)"`

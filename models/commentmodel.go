@@ -1,11 +1,15 @@
 package models
 
+import (
+	"time"
+)
+
 type Comment struct {
 	Id         int    `orm:"pk;auto"`
 	Body       string `orm:"type(text)"`
 	BodyHtml   string `orm:"type(text)"`
 	User       *User  `orm:"rel(fk)"`
-	Post       *post  `orm:"rel(fk)"`
+	Post       *Post  `orm:"rel(fk)"`
 	Disabled   bool
 	CreateTime time.Time `orm:"auto_now_add;type(datetime)"`
 	UpdateTime time.Time `orm:"auto_now;type(datetime)"`

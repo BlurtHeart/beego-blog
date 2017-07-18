@@ -25,7 +25,7 @@ type User struct {
 	Password_hash string     `orm:"size(128)"`
 	Confirmed     bool       `orm:"default(false)"`
 	Aboutme       string     `orm:"null;type(text)"`
-	RoleID        []int      `orm:"column(role_id);rel(m2m)"`
+	Roles         []*Role    `orm:"rel(m2m)"`
 	Posts         []*Post    `orm:"reverse(many)"`
 	Comments      []*Comment `orm:"reverse(many)"`
 	CreateTime    time.Time  `orm:"auto_now_add;type(datetime)"`
