@@ -31,10 +31,10 @@ func FindRoleById(id int) Role {
 	return role
 }
 
-func SaveRole(role *Role) int64 {
+func SaveRole(role *Role) int {
 	o := orm.NewOrm()
 	id, _ := o.Insert(role)
-	return id
+	return int(id)
 }
 
 func UpdateRole(role *Role) {
