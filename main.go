@@ -3,6 +3,7 @@ package main
 import (
 	"beego-blog/models"
 	_ "beego-blog/routers"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/mattn/go-sqlite3"
