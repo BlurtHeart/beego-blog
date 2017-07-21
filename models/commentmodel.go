@@ -25,3 +25,25 @@ func SaveComment(comment *Comment) int {
 	id, _ := o.Insert(comment)
 	return int(id)
 }
+
+func FindCommentById(id int) Comment {
+	o := orm.NewOrm()
+	var comment Comment
+	o.QueryTable(comment).Filter("Id", id).One(&comment)
+	if comment.User != nil {
+		o.Read(comment.User)
+	}
+	if comment.Post != nil {
+		o.Read(comment.Post)
+	}
+	return comment
+}
+
+func DeleteComment(comment *Comment) bool {
+	o := orm.NewOrm()
+	num, err := o.Delete(comment)
+	if num != 1 || err != nil {
+		return false
+	}
+	return true
+}

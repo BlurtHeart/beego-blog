@@ -32,3 +32,12 @@ func FindPostById(id int) Post {
 	o.QueryTable(post).Filter("Id", id).One(&post)
 	return post
 }
+
+func DeletePost(post *Post) bool {
+	o := orm.NewOrm()
+	num, err := o.Delete(post)
+	if num != 1 || err != nil {
+		return false
+	}
+	return true
+}

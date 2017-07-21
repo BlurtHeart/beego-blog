@@ -53,3 +53,16 @@ func (p *PostController) Get() {
 	p.Data["json"] = &res
 	p.ServeJSON()
 }
+
+func (p *PostController) Delete() {
+	id, _ := p.GetInt("post_id")
+	post := models.FindPostById(id)
+	result := models.DeletePost(&post)
+
+	res := struct {
+		PostId int  `json:"post_id"`
+		Result bool `json:"result"`
+	}{id, result}
+	p.Data["json"] = &res
+	p.ServeJSON()
+}
