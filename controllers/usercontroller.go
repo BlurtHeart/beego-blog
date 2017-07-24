@@ -22,17 +22,29 @@ func (c *UserController) Register() {
 	u.Username = ur.Username
 	u.Email = ur.Email
 	u.Password_hash = ur.Password
-	role := models.FindRoleByName("User")
-	u.Roles = append(u.Roles, &role)
-	id := models.SaveUser(&u)
-	models.SaveUserRole(id, role.Id)
+
+	var result int
+	var message string
+	var id int
+
+	uv := models.FindUserByName(u.Username)
+	if uv.Id != 0 {
+		result = 2
+		message = "用户已被注册"
+	} else {
+		role := models.FindRoleByName("User")
+		u.Roles = append(u.Roles, &role)
+		id = models.SaveUser(&u)
+		models.SaveUserRole(id, role.Id)
+		message = "注册成功"
+	}
 	res := struct {
 		Username string
 		Id       int
 		Email    string
 		Message  string `json:"message"`
 		Result   int    `json:"result"`
-	}{u.Username, id, u.Email, "ok", 1}
+	}{u.Username, id, u.Email, message, result}
 	c.Data["json"] = &res
 	c.ServeJSON()
 }
