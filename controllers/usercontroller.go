@@ -43,20 +43,27 @@ func (c *UserController) Login() {
 	// 1 - login ok
 	// 2 - password uncorrect
 	var result int
+	var message string
+	next := "/"
 	if u.Id != 0 {
 		if u.Password_hash != ul.Password {
 			result = 2
+			message = "password error"
 		} else {
 			result = 1
+			message = "login success"
 		}
 	} else {
 		result = 0
+		message = "username error"
 	}
 	res := struct {
 		Username string
 		Email    string
-		Result   int
-	}{ul.Username, ul.Email, result}
+		Message  string `json:"message"`
+		Next     string `json:"next"`
+		Result   int    `json:"result"`
+	}{ul.Username, ul.Email, message, next, result}
 	c.Data["json"] = &res
 	c.ServeJSON()
 }

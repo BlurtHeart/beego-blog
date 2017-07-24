@@ -46,7 +46,7 @@
                             </button>
                             <h4 class="modal-title" id="mymodaltitle">用户登录</h4>
                         </div>
-                        <div id="loginmessage"></div>
+                        <div class="loginmessage"></div>
                         <div class="modal-body">
                             <form id="loginform" role="form" class="form-horizontal" action="" method="post">
                                 <div class="form-group">
@@ -117,5 +117,9 @@
         <p class="navbar-text">Copyright © Steve Cloud</p>
     </div>
 </nav>
+
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/base.js"></script>
 
 </body>

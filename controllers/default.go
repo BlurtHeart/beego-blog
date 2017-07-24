@@ -9,5 +9,5 @@ type MainController struct {
 }
 
 func (c *MainController) Get() {
-	c.Ctx.WriteString("hello")
+	c.Ctx.Redirect(302, "/index")
 }
