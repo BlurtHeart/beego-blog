@@ -30,7 +30,9 @@ func (c *UserController) Register() {
 		Username string
 		Id       int
 		Email    string
-	}{u.Username, id, u.Email}
+		Message  string `json:"message"`
+		Result   int    `json:"result"`
+	}{u.Username, id, u.Email, "ok", 1}
 	c.Data["json"] = &res
 	c.ServeJSON()
 }

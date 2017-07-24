@@ -52,11 +52,11 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">用户名</label>
                                     <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="please input email"            name="email"/><br/>
+                            <input type="text" class="form-control" placeholder="please input username" name="username"/><br/>
                                     </div>
                                     <label class="control-label col-sm-3">密码</label>
                                     <div class="col-sm-9">
-                            <input type="password" class="form-control" placeholder="please input passwd" name="passwd"/><br/>
+                            <input type="password" class="form-control" placeholder="please input passwd" name="password"/><br/>
                             <input type="submit" class="btn btn-primary" align="right" value="登录"            />
                             <button class="btn btn-danger" data-dismiss="modal">关闭</button>
                                     </div>

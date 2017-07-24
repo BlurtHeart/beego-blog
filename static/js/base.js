@@ -32,8 +32,45 @@ function validate_form(thisform) {
 	}
 }
 
+$.fn.serializeObject = function() {
+	var o = {};
+	var a = this.serializeArray();
+	$.each(a, function(){
+		if (o[this.name]){
+			if (!o[this.name].push) {
+				o[this.name] = [o[this.name]];
+			}
+			o[this.name].push(this.value || '');
+		} else{
+			o[this.name] = this.value || '';
+		}
+	});
+	return o;
+}
 
-$('#loginform, #loginform2').submit(function(e) {
+$('#registerform, #registerform2').submit(function(e) {
+	// send json  
+	var v = $("#registerform, #registerform2").serializeObject();
+    
+    $.ajax({
+        type    :   'POST',
+        url     :   '/api/register',
+        cache   :   false,
+		data: JSON.stringify(v),
+        contentType: "application/json",
+        processData:false,
+        dataType:'json',
+        success:function(response) {
+            if (response.result == 1) {
+                $('.registermessage').addClass('alert alert-success').text(response.message);
+            } else {
+                $('.registermessage').addClass('alert alert-danger').text(response.message);
+            }
+        }
+    });
+	
+	// send form
+	/*
     var form = $(this);
     var formdata = false;
     if(window.FormData) {
@@ -42,10 +79,35 @@ $('#loginform, #loginform2').submit(function(e) {
     var formAction = form.attr('action');
     $.ajax({
         type    :   'POST',
-        url     :   '/api/login',
+        url     :   '/api/register',
         cache   :   false,
         data    :   formdata ? formdata : form.serialize(),
-        contentType:false,
+        contentType: false,
+        processData:false,
+        dataType:'json',
+        success:function(response) {
+            if (response.result == 1) {
+                $('.registermessage').addClass('alert alert-success').text(response.message);
+            } else {
+                $('.registermessage').addClass('alert alert-danger').text(response.message);
+            }
+        }
+    });
+	*/
+	
+    e.preventDefault();
+})
+
+$('#loginform, #loginform2').submit(function(e) {
+	// send json  
+	var v = $("#loginform, #loginform2").serializeObject();
+    
+    $.ajax({
+        type    :   'POST',
+        url     :   '/api/login',
+        cache   :   false,
+		data: JSON.stringify(v),
+        contentType: "application/json",
         processData:false,
         dataType:'json',
         success:function(response) {
@@ -57,6 +119,33 @@ $('#loginform, #loginform2').submit(function(e) {
             }
         }
     });
+	// send form
+	/*
+	var form = $(this);
+    var formdata = false;
+	if(window.FormData) {
+        formdata = new FormData(form[0]);
+    }
+    var formAction = form.attr('action');
+	$.ajax({
+        type    :   'POST',
+        url     :   '/api/login',
+        cache   :   false,
+        data    :   formdata ? formdata : form.serialize(),
+        contentType: false,
+        processData:false,
+        dataType:'json',
+        success:function(response) {
+            if (response.result == 1) {
+                $('.loginmessage').addClass('alert alert-success').text(response.message);
+                location.href = response.next;
+            } else {
+                $('.loginmessage').addClass('alert alert-danger').text(response.message);
+            }
+        }
+    });
+	*/
+	
     e.preventDefault();
 });
 
