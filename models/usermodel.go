@@ -70,28 +70,44 @@ func FindUsers() []*User {
 	return users
 }
 
-func SaveUser(user *User) int {
+func SaveUser(user *User) (int, bool) {
 	o := orm.NewOrm()
-	id, _ := o.Insert(user)
-	return int(id)
+	id, err := o.Insert(user)
+	if err != nil {
+		return 0, false
+	}
+	return int(id), true
 }
 
-func UpdateUser(user *User) {
+func UpdateUser(user *User) bool {
 	o := orm.NewOrm()
-	o.Update(user)
+	if _, err := o.Update(user); err != nil {
+		return false
+	}
+	return true
 }
 
-func DeleteUser(user *User) {
+func DeleteUser(user *User) bool {
 	o := orm.NewOrm()
-	o.Delete(user)
+	if _, err := o.Delete(user); err != nil {
+		return false
+	}
+	return true
 }
 
-func DeleteUserById(id int) {
+func DeleteUserById(id int) bool {
 	o := orm.NewOrm()
-	o.Raw("delete from roles where id=?", id).Exec()
+	if _, err := o.Raw("delete from roles where id=?", id).Exec(); err != nil {
+		return false
+	}
+	return true
 }
 
-func SaveUserRole(user_id, role_id int) {
+func SaveUserRole(user_id, role_id int) bool {
 	o := orm.NewOrm()
-	o.Raw("insert into users_roless(users_id, roles_id)values(?, ?)", user_id, role_id).Exec()
+	_, err := o.Raw("insert into users_roless(users_id, roles_id)values(?, ?)", user_id, role_id).Exec()
+	if err != nil {
+		return false
+	}
+	return true
 }

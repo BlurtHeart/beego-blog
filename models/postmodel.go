@@ -20,10 +20,13 @@ func (p *Post) TableName() string {
 	return "posts"
 }
 
-func SavePost(post *Post) int {
+func SavePost(post *Post) (int, bool) {
 	o := orm.NewOrm()
-	id, _ := o.Insert(post)
-	return int(id)
+	id, err := o.Insert(post)
+	if err != nil {
+		return 0, false
+	}
+	return int(id), true
 }
 
 func FindPostById(id int) Post {

@@ -34,9 +34,14 @@ func (c *UserController) Register() {
 	} else {
 		role := models.FindRoleByName("User")
 		u.Roles = append(u.Roles, &role)
-		id = models.SaveUser(&u)
-		models.SaveUserRole(id, role.Id)
-		message = "注册成功"
+		if id, excResult := models.SaveUser(&u); !excResult {
+			result = 3
+			message = "未知错误"
+		} else {
+			models.SaveUserRole(id, role.Id)
+			result = 1
+			message = "注册成功"
+		}
 	}
 	res := struct {
 		Username string

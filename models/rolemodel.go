@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/astaxie/beego/orm"
 	"time"
+
+	"github.com/astaxie/beego/orm"
 )
 
 type Role struct {
@@ -37,19 +38,29 @@ func SaveRole(role *Role) int {
 	return int(id)
 }
 
-func UpdateRole(role *Role) {
+func UpdateRole(role *Role) bool {
 	o := orm.NewOrm()
-	o.Update(role, "RoleName", "Permissions")
+	if _, err := o.Update(role, "RoleName", "Permissions"); err != nil {
+		return false
+	}
+	return true
 }
 
-func DeleteRole(role *Role) {
+func DeleteRole(role *Role) bool {
 	o := orm.NewOrm()
-	o.Delete(role)
+	if _, err := o.Delete(role); err != nil {
+		return false
+	}
+	return true
 }
 
-func DeleteRoleById(id int) {
+func DeleteRoleById(id int) bool {
 	o := orm.NewOrm()
-	o.Raw("delete from roles where id=?", id).Exec()
+	_, err := o.Raw("delete from roles where id=?", id).Exec()
+	if err != nil {
+		return false
+	}
+	return true
 }
 
 func FindRoles() []*Role {

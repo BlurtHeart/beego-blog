@@ -3,7 +3,6 @@ package controllers
 import (
 	"beego-blog/models"
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -27,12 +26,17 @@ func (p *PostController) Post() {
 	pp.Body = pm.Body
 	pp.Title = pm.Title
 	pp.User = &u
-	id := models.SavePost(&pp)
-	fmt.Println(id)
+	var result int
+	id, excResult := models.SavePost(&pp)
+	if !excResult {
+		result = 1
+	} else {
+		result = 0
+	}
 	res := struct {
 		PostId int `json:"post_id"` // post id
 		Result int `json:"result"`  // post result
-	}{id, 1}
+	}{id, result}
 	p.Data["json"] = &res
 	p.ServeJSON()
 }
@@ -41,7 +45,6 @@ func (p *PostController) Get() {
 	id, _ := p.GetInt("post_id")
 	var pp models.Post
 	pp = models.FindPostById(id)
-	fmt.Println("pp:", pp)
 	res := struct {
 		PostId     int       `json:"post_id"`
 		Title      string    `json:"title"`

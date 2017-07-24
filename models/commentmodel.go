@@ -20,10 +20,13 @@ func (c *Comment) TableName() string {
 	return "comments"
 }
 
-func SaveComment(comment *Comment) int {
+func SaveComment(comment *Comment) (int, bool) {
 	o := orm.NewOrm()
-	id, _ := o.Insert(comment)
-	return int(id)
+	id, err := o.Insert(comment)
+	if err != nil {
+		return 0, false
+	}
+	return int(id), true
 }
 
 func FindCommentById(id int) Comment {

@@ -3,7 +3,6 @@ package controllers
 import (
 	"beego-blog/models"
 	"encoding/json"
-	"fmt"
 
 	"github.com/astaxie/beego"
 )
@@ -27,15 +26,21 @@ func (c *CommentController) Post() {
 	comment.Body = cr.Body
 	comment.User = &u
 	comment.Post = &post
-	id := models.SaveComment(&comment)
-	fmt.Println(id)
+
+	var result int
+	id, excResult := models.SaveComment(&comment)
+	if !excResult {
+		result = 1
+	} else {
+		result = 0
+	}
 
 	res := struct {
 		CommentId int `json:"comment_id"`
 		UserId    int `json:"user_id"`
 		PostId    int `json:"post_id"`
 		Result    int `json:"result"`
-	}{id, cr.UserId, cr.PostId, 1}
+	}{id, cr.UserId, cr.PostId, result}
 	c.Data["json"] = &res
 	c.ServeJSON()
 }
