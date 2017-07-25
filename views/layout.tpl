@@ -76,22 +76,27 @@
                             &times;
                             </button>
                             <h4 class="modal-title" id="mymodaltitle">用户注册</h4>
+							<div class="registermessage"></div>
                         </div>
                         <div class="modal-body">
-                            <form role="form" class="form-horizontal" action="/register" onsubmit="return validate_form(this)" method="post">
+                            <form role="form" id="registerform" onClick="return validate_form(this)" class="form-horizontal" action="" method="post">
                                 <div class="form-group">
                                     <label class="control-label col-sm-3">邮箱</label>
                                     <div class="col-sm-9">
                             <input type="text" class="form-control" placeholder="please input your email" name="email"/><br/>
                                     </div>
+									<label class="control-label col-sm-3">用户名</label>
+                                    <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="please input your username" name="username"/><br/>
+                                    </div>
                                     <label class="control-label col-sm-3">密码</label>
                                     <div class="col-sm-9">
-                            <input type="password" class="form-control" placeholder="please input your password" name="password" id="password1"/><br/>
+                            <input type="password" class="form-control password1" placeholder="please input your password" name="password"/><br/>
                                     </div>
                                     <label class="control-label col-sm-3">确认密码</label>
                                     <div class="col-sm-9">
-                            <input type="password" class="form-control" placeholder="please check your password" name="checkpassword" id="password2"/><br/>
-                            <input type="submit" class="btn btn-primary" align="right" value="注册"            />
+                            <input type="password" class="form-control password2" placeholder="please check your password" name="checkpassword"/><br/>
+                            <input type="submit" class="btn btn-primary" align="right" value="注册"/>
                                     </div>
                                 </div>
                             </form>

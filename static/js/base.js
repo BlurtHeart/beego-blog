@@ -10,10 +10,11 @@ function validate_email(field,alerttxt) {
 		}
 	}
 }
-function topassword() {
+function topassword(password, checkpassword) {
     //document.write("Hello World!");
-    var p1 = document.getElementById("password1").value;
-    var p2 = document.getElementById("password2").value;
+    var p1 = password.value;
+    var p2 = checkpassword.value;
+
     if (p1 == p2) {
         //alert("password right");
         return true;
@@ -28,7 +29,7 @@ function validate_form(thisform) {
 			email.focus();
 			return false;
 		}
-		return topassword();
+		return topassword(password, checkpassword);
 	}
 }
 
@@ -48,9 +49,35 @@ $.fn.serializeObject = function() {
 	return o;
 }
 
-$('#registerform, #registerform2').submit(function(e) {
+$('#registerform2').submit(function(e) {
+	e.preventDefault();
+
 	// send json  
-	var v = $("#registerform, #registerform2").serializeObject();
+	var v = $("#registerform2").serializeObject();
+    
+    $.ajax({
+        type    :   'POST',
+        url     :   '/api/register',
+        cache   :   false,
+		data: JSON.stringify(v),
+        contentType: "application/json",
+        processData:false,
+        dataType:'json',
+        success:function(response) {
+            if (response.result == 1) {
+                $('.registermessage').addClass('alert alert-success').text(response.message);
+            } else {
+                $('.registermessage').addClass('alert alert-danger').text(response.message);
+            }
+        }
+    });
+})
+
+$('#registerform').submit(function(e) {
+	e.preventDefault();
+
+	// send json  
+	var v = $("#registerform").serializeObject();
     
     $.ajax({
         type    :   'POST',
@@ -94,8 +121,6 @@ $('#registerform, #registerform2').submit(function(e) {
         }
     });
 	*/
-	
-    e.preventDefault();
 })
 
 $('#loginform, #loginform2').submit(function(e) {

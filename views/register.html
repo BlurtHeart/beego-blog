@@ -1,22 +1,23 @@
-
-<div class="row">
-  	<div class="col-md-6">
-    <div class="panel panel-default">
-      	<div class="panel-heading">注册</div>
-		<div class="registermessage"></div>
-      	<div class="panel-body">
-        <form id="registerform2" role="form" class="form-horizontal" action="" method="post">
-        	<div class="form-group">
-            <label for="username">用户名</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="用户名">
-          	</div>
-          	<div class="form-group">
-            <label for="password">密码</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="密码">
-          	</div>
-          	<input type="submit" class="btn btn-sm btn-default" value="注册"> <a href="/login">去登录</a>
-        </form>
-      	</div>
-    </div>
-  	</div>
-</div>
+<h4 class="modal-title">用户注册</h4>
+<div class="registermessage"></div>
+<form role="form" id="registerform2" onClick="return validate_form(this)" class="form-horizontal" action="" method="post">
+    <div class="form-group">
+        <label class="control-label col-sm-3">邮箱</label>
+            <div class="col-sm-9">
+	            <input type="text" class="form-control" placeholder="please input your email" name="email"/><br/>
+	        </div>
+		<label class="control-label col-sm-3">用户名</label>
+			<div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="please input your username" name="username"/><br/>
+            </div>
+        <label class="control-label col-sm-3">密码</label>
+            <div class="col-sm-9">
+                <input type="password" class="form-control password1" placeholder="please input your password" name="password" /><br/>
+            </div>
+        <label class="control-label col-sm-3">确认密码</label>
+            <div class="col-sm-9">
+        		<input type="password" class="form-control password2" placeholder="please check your password" name="checkpassword" /><br/>
+            	<input type="submit" class="btn btn-primary" align="right" value="注册"/>
+            </div>
+     </div>
+</form>
