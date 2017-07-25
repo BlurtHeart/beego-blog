@@ -25,19 +25,6 @@ func (u *UserController) Register() {
 	u.TplName = "register.html"
 }
 
-func (u *UserController) RegisterPost() {
-	type RegisterRequest struct {
-		UserName string `json:"username"`
-		PassWord string `json:"password"`
-	}
-	var rr RegisterRequest
-	//	json.Unmarshal(u.Ctx.Input.RequestBody, &rr)
-	rr.UserName = u.GetString("username")
-	rr.PassWord = u.GetString("password")
-	u.Data["json"] = &rr
-	u.ServeJSON()
-}
-
 func (u *UserController) Login() {
 	u.Layout = "layout.tpl"
 	u.TplName = "login.html"
