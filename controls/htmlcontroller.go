@@ -29,3 +29,12 @@ func (u *UserController) Login() {
 	u.Layout = "layout.tpl"
 	u.TplName = "login.html"
 }
+
+type PostController struct {
+	beego.Controller
+}
+
+func (p *PostController) Get() {
+	p.Layout = "layout.tpl"
+	p.TplName = "post.html"
+}

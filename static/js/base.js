@@ -179,3 +179,27 @@ $('#mylogin').on('hidden.bs.modal', function () {
     $(this).find('form').trigger('reset');
     $('#loginmessage').removeClass('alert alert-danger').text('');
 })
+
+$('#post-form').submit(function(e) {
+	e.preventDefault();
+
+	// send json  
+	var v = $("#post-form").serializeObject();
+    
+    $.ajax({
+        type    :   'POST',
+        url     :   '/api/post',
+        cache   :   false,
+		data: JSON.stringify(v),
+        contentType: "application/json",
+        processData:false,
+        dataType:'json',
+        success:function(response) {
+            if (response.result == 1) {
+                $('.postmessage').addClass('alert alert-success').text(response.message);
+            } else {
+                $('.postmessage').addClass('alert alert-danger').text(response.message);
+            }
+        }
+    });
+})

@@ -27,16 +27,20 @@ func (p *PostController) Post() {
 	pp.Title = pm.Title
 	pp.User = &u
 	var result int
+	var message string
 	id, excResult := models.SavePost(&pp)
 	if !excResult {
-		result = 1
-	} else {
 		result = 0
+		message = "post failed"
+	} else {
+		result = 1
+		message = "post ok"
 	}
 	res := struct {
-		PostId int `json:"post_id"` // post id
-		Result int `json:"result"`  // post result
-	}{id, result}
+		PostId  int    `json:"post_id"` // post id
+		Result  int    `json:"result"`  // post result
+		Message string `json:"message"`
+	}{id, result, message}
 	p.Data["json"] = &res
 	p.ServeJSON()
 }
