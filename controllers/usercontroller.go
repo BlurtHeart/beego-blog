@@ -71,6 +71,9 @@ func (c *UserController) Login() {
 		} else {
 			result = 1
 			message = "login success"
+			sess, _ := globalSessions.SessionStart(c.Ctx.ResponseWriter, c.Ctx.Request)
+			defer sess.SessionRelease(c.Ctx.ResponseWriter)
+			sess.Set("username", c.Ctx.Request.Form["username"])
 		}
 	} else {
 		result = 0

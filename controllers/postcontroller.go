@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego-blog/models"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -13,6 +14,20 @@ type PostController struct {
 }
 
 func (p *PostController) Post() {
+	sess, _ := globalSessions.SessionStart(p.Ctx.ResponseWriter, p.Ctx.Request)
+	defer sess.SessionRelease(p.Ctx.ResponseWriter)
+	param := sess.Get("username")
+	var username string
+	fmt.Println("param:", param)
+	if param != nil {
+		username = param.(string)
+	} else {
+		fmt.Println("session:None")
+		p.Ctx.WriteString("no session found")
+	}
+	fmt.Println("session:", username)
+	u := models.FindUserByName(username)
+
 	type postrequest struct {
 		Body   string
 		Title  string
@@ -20,7 +35,7 @@ func (p *PostController) Post() {
 	}
 	var pm postrequest
 	json.Unmarshal(p.Ctx.Input.RequestBody, &pm)
-	u := models.FindUserById(pm.UserId)
+	// u := models.FindUserById(pm.UserId)
 
 	var pp models.Post
 	pp.Body = pm.Body
