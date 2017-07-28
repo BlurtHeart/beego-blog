@@ -14,9 +14,7 @@ type PostController struct {
 }
 
 func (p *PostController) Post() {
-	sess, _ := globalSessions.SessionStart(p.Ctx.ResponseWriter, p.Ctx.Request)
-	defer sess.SessionRelease(p.Ctx.ResponseWriter)
-	param := sess.Get("username")
+	param := p.GetSession("username")
 	var username string
 	fmt.Println("param:", param)
 	if param != nil {
