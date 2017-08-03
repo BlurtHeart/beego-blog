@@ -197,6 +197,7 @@ $('#post-form').submit(function(e) {
         success:function(response) {
             if (response.result == 1) {
                 $('.postmessage').addClass('alert alert-success').text(response.message);
+				location.href = response.next;
             } else {
                 $('.postmessage').addClass('alert alert-danger').text(response.message);
             }

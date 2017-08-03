@@ -3,7 +3,6 @@ package controllers
 import (
 	"beego-blog/models"
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -16,14 +15,11 @@ type PostController struct {
 func (p *PostController) Post() {
 	param := p.GetSession("username")
 	var username string
-	fmt.Println("param:", param)
 	if param != nil {
 		username = param.(string)
 	} else {
-		fmt.Println("session:None")
 		p.Ctx.WriteString("no session found")
 	}
-	fmt.Println("session:", username)
 	u := models.FindUserByName(username)
 
 	type postrequest struct {
@@ -49,11 +45,13 @@ func (p *PostController) Post() {
 		result = 1
 		message = "post ok"
 	}
+	next := "/index"
 	res := struct {
 		PostId  int    `json:"post_id"` // post id
 		Result  int    `json:"result"`  // post result
 		Message string `json:"message"`
-	}{id, result, message}
+		Next    string `json:"next"`
+	}{id, result, message, next}
 	p.Data["json"] = &res
 	p.ServeJSON()
 }
