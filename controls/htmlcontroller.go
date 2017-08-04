@@ -1,7 +1,9 @@
 package controls
 
 import (
+	"strconv"
 	//	"encoding/json"
+	"beego-blog/models"
 
 	"github.com/astaxie/beego"
 )
@@ -71,4 +73,12 @@ func (this *PostController) Prepare() {
 func (p *PostController) Get() {
 	p.Layout = "layout.tpl"
 	p.TplName = "post.html"
+}
+
+func (this *PostController) Detail() {
+	post_id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
+	post := models.FindPostById(post_id)
+	this.Data["post"] = post
+	this.Layout = "layout.tpl"
+	this.TplName = "post-detail.html"
 }

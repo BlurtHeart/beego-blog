@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego-blog/models"
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -45,7 +46,7 @@ func (p *PostController) Post() {
 		result = 1
 		message = "post ok"
 	}
-	next := "/index"
+	next := fmt.Sprintf("%s%d", "/post/", id)
 	res := struct {
 		PostId  int    `json:"post_id"` // post id
 		Result  int    `json:"result"`  // post result
