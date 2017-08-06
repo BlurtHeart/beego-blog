@@ -56,6 +56,12 @@ func (u *UserController) Login() {
 	u.TplName = "login.html"
 }
 
+func (u *UserController) Logout() {
+	// u.DelSession(u.Data["username"].(string))
+	u.DestroySession()
+	u.Redirect("/", 302)
+}
+
 func (u *UserController) Profile() {
 	u.Layout = "layout.tpl"
 	u.TplName = "profile.html"
