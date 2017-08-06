@@ -22,4 +22,5 @@ func init() {
 	beego.Router("/index", &controls.DefaultController{})
 	beego.Router("/post", &controls.PostController{})
 	beego.Router("/post/:id([0-9]+", &controls.PostController{}, "get:Detail")
+	beego.Router("/profile", &controls.UserController{}, "get:Profile")
 }

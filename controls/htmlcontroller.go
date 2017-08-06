@@ -42,6 +42,7 @@ func (this *UserController) Prepare() {
 		this.Data["IsAdmin"] = true
 	} else {
 		this.Data["IsAdmin"] = false
+		this.Data["username"] = ""
 	}
 }
 func (u *UserController) Register() {
@@ -53,6 +54,13 @@ func (u *UserController) Register() {
 func (u *UserController) Login() {
 	u.Layout = "layout.tpl"
 	u.TplName = "login.html"
+}
+
+func (u *UserController) Profile() {
+	u.Layout = "layout.tpl"
+	u.TplName = "profile.html"
+	user := models.FindUserByName(u.Data["username"].(string))
+	u.Data["user"] = user
 }
 
 type PostController struct {
