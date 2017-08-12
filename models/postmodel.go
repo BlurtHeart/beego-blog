@@ -36,6 +36,17 @@ func FindPostById(id int) Post {
 	return post
 }
 
+func FindAllPosts() []*Post {
+	o := orm.NewOrm()
+	var posts []*Post
+	o.QueryTable("posts").All(&posts)
+	for _, v := range posts {
+		o.Read(v)
+		o.LoadRelated(v, "User")
+	}
+	return posts
+}
+
 func DeletePost(post *Post) bool {
 	o := orm.NewOrm()
 	num, err := o.Delete(post)

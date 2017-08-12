@@ -26,7 +26,9 @@ func (this *DefaultController) Prepare() {
 
 func (c *DefaultController) Get() {
 	c.Layout = "layout.tpl"
-	c.TplName = "empty.html"
+	c.TplName = "index.tpl"
+	ps := models.FindAllPosts()
+	c.Data["posts"] = ps
 }
 
 type UserController struct {
