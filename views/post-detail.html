@@ -1,3 +1,11 @@
+<script type="text/javascript"> 
+        function checkEmpty(thisform) {
+            if (thisform.body.value=="") {
+                alert("内容不能为空");
+                return false;
+            }
+        }
+    </script>
 
 	<div class="header">
 		<h1><b>{{ .post.Title }}</b></h1>
@@ -5,3 +13,17 @@
 	<div class="container">
 		<h3>{{ .post.Body }}</h3>
 	</div>
+
+    <div class="header">
+        <h3><b>评论</b></h3>
+        <div class="comment-message"></div>
+    <div class="container">
+        <div class="item">
+            <form role="form" id="comment-form" action="" onsubmit="return checkEmpty(this)" method="post" >
+                <div class="form-group">
+                    <textarea class="form-control" type="text", placeholder="内容" name="body" style="height:100px;"/></textarea><br/>
+                    <input type="submit" value="提交"/>
+                </div>
+            </form>
+        </div>
+    </div>

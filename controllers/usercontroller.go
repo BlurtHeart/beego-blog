@@ -72,6 +72,7 @@ func (c *UserController) Login() {
 			result = 1
 			message = "login success"
 			c.SetSession("username", ul.Username)
+			c.SetSession("user_id", u.Id)
 		}
 	} else {
 		result = 0

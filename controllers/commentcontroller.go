@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego-blog/models"
 	"encoding/json"
+	"fmt"
 
 	"github.com/astaxie/beego"
 )
@@ -12,14 +13,36 @@ type CommentController struct {
 }
 
 func (c *CommentController) Post() {
+	type commentResponse struct {
+		CommentId int    `json:"comment_id"`
+		Result    int    `json:"result"`
+		Message   string `json:"message"`
+		Next      string `json:"next"`
+	}
+
+	param := c.GetSession("user_id")
+	var user_id int
+	if param != nil {
+		user_id = param.(int)
+	} else {
+		res := commentResponse{Result: 0, Message: "need login", Next: "/login"}
+		c.Data["json"] = &res
+		c.ServeJSON()
+		return
+	}
+
+	var message string
+	var next string
+
 	type commentRequest struct {
-		Body   string
-		UserId int `json:"user_id"`
-		PostId int `json:"post_id"`
+		Body   string `json:"body"`
+		PostId int    `json:"post_id"`
 	}
 	var cr commentRequest
+	fmt.Println("header:", c.Ctx.Input.Header("Content-Type"))
 	json.Unmarshal(c.Ctx.Input.RequestBody, &cr)
-	u := models.FindUserById(cr.UserId)
+	fmt.Println("request:", cr)
+	u := models.FindUserById(user_id)
 	post := models.FindPostById(cr.PostId)
 
 	var comment models.Comment
@@ -28,19 +51,17 @@ func (c *CommentController) Post() {
 	comment.Post = &post
 
 	var result int
+	fmt.Println("comment:", comment)
 	id, excResult := models.SaveComment(&comment)
 	if !excResult {
 		result = 1
+		message = "comment ok"
 	} else {
-		result = 0
+		result = 1
+		message = "comment failed"
 	}
 
-	res := struct {
-		CommentId int `json:"comment_id"`
-		UserId    int `json:"user_id"`
-		PostId    int `json:"post_id"`
-		Result    int `json:"result"`
-	}{id, cr.UserId, cr.PostId, result}
+	res := commentResponse{id, result, message, next}
 	c.Data["json"] = &res
 	c.ServeJSON()
 }

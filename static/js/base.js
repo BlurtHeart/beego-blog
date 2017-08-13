@@ -204,3 +204,60 @@ $('#post-form').submit(function(e) {
         }
     });
 })
+
+// comment
+var generateHideElement = function (name, value) {
+                var tempInput = document.createElement("input");
+                tempInput.type = "hidden";
+                tempInput.name = name;
+                tempInput.value = value;
+                return tempInput;
+            }
+
+function GetDynamicUrl() {
+    var url = location.search; //获取url中动态部分
+    var theRequest = new Object();
+    var str = url.substr(1);
+    alert(str);
+    
+    strs = str.split("/");
+    return strs[-1]
+}
+
+function getElements(formId) {  
+  var form = document.getElementById(formId);  
+  var tagElements = form.getElementsByTagName('textarea');  
+  for (var j = 0; j < tagElements.length; j++){ 
+    alert(tagElements[j].value);
+  
+  } 
+}
+
+$('#comment-form').submit(function(e) {
+    e.preventDefault();
+
+    var durl = GetDynamicUrl();
+    alert(durl);
+    var post = generateHideElement("post_id", durl);
+    this.appendChild(post);
+
+    var v = $("#comment-form").serializeObject();
+
+    $.ajax({
+        type    :   'POST',
+        url     :   '/api/comment',
+        cache   :   false,
+        data: JSON.stringify(v),
+        contentType: "application/json",
+        processData:false,
+        dataType:'json',
+        success:function(response) {
+            if (response.result == 1) {
+                $('.comment-message').addClass('alert alert-success').text(response.message);
+            } else {
+                $('.comment-message').addClass('alert alert-danger').text(response.message);
+                location.href = response.next;
+            }
+        }
+    })
+})
