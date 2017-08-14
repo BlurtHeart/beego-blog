@@ -215,13 +215,9 @@ var generateHideElement = function (name, value) {
             }
 
 function GetDynamicUrl() {
-    var url = location.search; //获取url中动态部分
-    var theRequest = new Object();
-    var str = url.substr(1);
-    alert(str);
-    
+    var str = window.location.href;    
     strs = str.split("/");
-    return strs[-1]
+    return strs[strs.length-1];
 }
 
 function getElements(formId) {  
@@ -237,9 +233,7 @@ $('#comment-form').submit(function(e) {
     e.preventDefault();
 
     var durl = GetDynamicUrl();
-    alert(durl);
-    var post = generateHideElement("post_id", durl);
-    this.appendChild(post);
+    $("#comment-post-id").val(durl);
 
     var v = $("#comment-form").serializeObject();
 

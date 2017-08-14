@@ -21,6 +21,7 @@
         <div class="item">
             <form role="form" id="comment-form" action="" onsubmit="return checkEmpty(this)" method="post" >
                 <div class="form-group">
+                    <input type=hidden value='0' id="comment-post-id" name="post_id">
                     <textarea class="form-control" type="text", placeholder="内容" name="body" style="height:100px;"/></textarea><br/>
                     <input type="submit" value="提交"/>
                 </div>

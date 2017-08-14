@@ -3,7 +3,7 @@ package controllers
 import (
 	"beego-blog/models"
 	"encoding/json"
-	"fmt"
+	"strconv"
 
 	"github.com/astaxie/beego"
 )
@@ -36,14 +36,13 @@ func (c *CommentController) Post() {
 
 	type commentRequest struct {
 		Body   string `json:"body"`
-		PostId int    `json:"post_id"`
+		PostId string `json:"post_id"`
 	}
 	var cr commentRequest
-	fmt.Println("header:", c.Ctx.Input.Header("Content-Type"))
 	json.Unmarshal(c.Ctx.Input.RequestBody, &cr)
-	fmt.Println("request:", cr)
+	post_id, _ := strconv.Atoi(cr.PostId)
 	u := models.FindUserById(user_id)
-	post := models.FindPostById(cr.PostId)
+	post := models.FindPostById(post_id)
 
 	var comment models.Comment
 	comment.Body = cr.Body
@@ -51,9 +50,8 @@ func (c *CommentController) Post() {
 	comment.Post = &post
 
 	var result int
-	fmt.Println("comment:", comment)
 	id, excResult := models.SaveComment(&comment)
-	if !excResult {
+	if excResult {
 		result = 1
 		message = "comment ok"
 	} else {
